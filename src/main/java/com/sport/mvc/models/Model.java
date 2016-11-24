@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @MappedSuperclass
-public class Model implements Serializable {
+public class Model implements Serializable{
 
     private static final long serialVersionUID = -4292305740271731375L;
 

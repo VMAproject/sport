@@ -17,6 +17,7 @@ public abstract class HibernateAbstractDao<T extends Model> {
 
     private Class<T> clazz;
 
+
     @SuppressWarnings("unchecked")
     public HibernateAbstractDao() {
         final ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();

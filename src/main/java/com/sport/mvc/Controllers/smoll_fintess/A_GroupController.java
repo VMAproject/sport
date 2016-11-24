@@ -1,11 +1,8 @@
-package com.sport.mvc.controllers.smoll_fintess;
+package com.sport.mvc.Controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.*;
-import com.sport.mvc.services.CategoryGroupService;
-import com.sport.mvc.services.GroupService;
-import com.sport.mvc.services.StudentService;
-import com.sport.mvc.services.UserService;
+import com.sport.mvc.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.acls.model.NotFoundException;

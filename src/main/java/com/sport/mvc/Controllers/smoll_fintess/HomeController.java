@@ -1,4 +1,4 @@
-package com.sport.mvc.controllers.smoll_fintess;
+package com.sport.mvc.Controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.User;

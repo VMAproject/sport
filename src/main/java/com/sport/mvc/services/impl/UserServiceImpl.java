@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service(value = "userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Qualifier("userDatabaseDao")
     @Autowired
@@ -20,16 +20,47 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl() {
     }
 
-
-    @Transactional
+    @Override
+    @Transactional(readOnly = true)
     public List<User> getAll() {
         return userDao.getAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
-    @Transactional
-    public void addUser(User user) {
-        userDao.add(user);
+    public User getUserById(Long id) {
+        return userDao.getById(id);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public User getUserByUsername(String username) {
+        return userDao.getUserByUsername(username);
+    }
+
+    @Transactional
+    @Override
+    public boolean addUser(User user) {
+        return userDao.addUser(user);
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(User user) {
+        userDao.update(user);
+    }
+
+    @Transactional
+    @Override
+    public void deleteUser(Long id) {
+        userDao.remove(userDao.getById(id));
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean userExists(String username) {
+        return userDao.userExists(username);
+    }
+
 
 }
