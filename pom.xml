@@ -7,6 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>sport</name>
 
+
     <properties>
         <java.version>1.8</java.version>
         <spring.version>4.3.3.RELEASE</spring.version>
@@ -198,6 +199,21 @@
             <artifactId>jquery</artifactId>
             <version>2.1.4</version>
         </dependency>
+
+
+        <!-- Need this for json to/from object -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.6.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.6.3</version>
+        </dependency>
+
 
     </dependencies>
 
