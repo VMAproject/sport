@@ -1,9 +1,6 @@
 package com.sport.mvc.models;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "customer_card")
@@ -11,59 +8,63 @@ public class CustomerCard extends Model {
 
     private static final long serialVersionUID = -7420101268348647447L;
 
-    @Column(name = "comment")
-    private String comment;
-
-    @Column(name = "price")
+    @Column(name ="price")
     private int price;
 
-    @Column(name = "created")
-    private Date created;
 
-    @Column(name = "updated")
-    private Date updated;
+    @Column(name = "start_abonement")
+    private String start;
 
-    @Column(name = "deleted")
-    private boolean deleted;
+
+    @Column(name = "finish_abonement")
+    private String finish;
+
+    @Column(name = "status")
+    private String status;
+
+
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "student_id")
     private Student student;
 
+
     public CustomerCard() {
         super();
     }
 
-    public String getComment() {
-        return comment;
+    public CustomerCard(int price, String start, String finish,String status, Student student) {
+        this.status = status;
+        this.start = start;
+        this.finish = finish;
+        this.price = price;
+        this.student = student;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+
+    public String getStatus() {
+        return status;
     }
 
-    public Date getCreated() {
-        return created;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
+    public String getStart() {
+        return start;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public void setStart(String start) {
+        this.start = start;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public String getFinish() {
+        return finish;
     }
 
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
+    public void setFinish(String finish) {
+        this.finish = finish;
     }
 
     public Student getStudent() {

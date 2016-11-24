@@ -10,11 +10,12 @@ public class Group extends Model {
 
     private static final long serialVersionUID = 5110150966894003873L;
 
+
+    @Column(name = "is_main")
+    private boolean isMain;
+
     @Column(name = "name")
     private String name;
-
-    @Column(name = "nameTraine")
-    private String nameTraine;
 
     @Column(name = "discription")
     private String discription;
@@ -23,8 +24,9 @@ public class Group extends Model {
         super(id);
     }
 
-    @ManyToMany(mappedBy = "groups")
-    private Set<User> treiners = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
@@ -32,6 +34,10 @@ public class Group extends Model {
     @ManyToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private CategoryGroup categoryGroup;
+
+
+    @OneToOne(mappedBy = "groups", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Price prices;
 
     public Group() {
         super();
@@ -53,12 +59,12 @@ public class Group extends Model {
         this.name = name;
     }
 
-    public Set<User> getTreiners() {
-        return treiners;
+    public User getUser() {
+        return user;
     }
 
-    public void setTreiners(Set<User> treiners) {
-        this.treiners = treiners;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public CategoryGroup getCategoryGroup() {
@@ -77,11 +83,20 @@ public class Group extends Model {
         this.students = students;
     }
 
-    public String getNameTraine() {
-        return nameTraine;
+    public boolean isMain() {
+        return isMain;
     }
 
-    public void setNameTraine(String nameTraine) {
-        this.nameTraine = nameTraine;
+    public void setMain(boolean main) {
+        isMain = main;
+    }
+
+
+    public Price getPrices() {
+        return prices;
+    }
+
+    public void setPrices(Price prices) {
+        this.prices = prices;
     }
 }
