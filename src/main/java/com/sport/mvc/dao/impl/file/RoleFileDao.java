@@ -1,7 +1,6 @@
 package com.sport.mvc.dao.impl.file;
 
 import com.sport.mvc.dao.RoleDao;
-import com.sport.mvc.dao.impl.file.FileAbstractDao;
 import com.sport.mvc.models.Role;
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +28,13 @@ public class RoleFileDao extends FileAbstractDao<Role> implements RoleDao {
     }
 
 
+    @Override
+    public boolean roleExists(String roleName) {
+        return false;
+    }
+
+    @Override
+    public boolean addRole(Role role) {
+        return false;
+    }
 }

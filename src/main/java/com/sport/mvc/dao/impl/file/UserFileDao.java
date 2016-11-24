@@ -1,10 +1,7 @@
 package com.sport.mvc.dao.impl.file;
 
 import com.sport.mvc.dao.UserDao;
-import com.sport.mvc.dao.impl.file.FileAbstractDao;
 import com.sport.mvc.models.User;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,4 +29,18 @@ public class UserFileDao extends FileAbstractDao<User> implements UserDao {
     }
 
 
+    @Override
+    public boolean addUser(User model) {
+        return false;
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        return false;
+    }
 }
