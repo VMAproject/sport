@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/registerPerson/")
@@ -58,84 +59,77 @@ public class A_PersonsController {
     private SendMailService sendMailService;
 
 
-
     //method for jump register page FITNESS CENTRE =)
     @RequestMapping(value = "/registerFitnessCenter")
-    public String showRegisterFitnessCentre(Model model){
+    public String showRegisterFitnessCentre(Model model) {
         return "register_pages/registerFitnessCenter";
     }
+
     //method for jump register page guest =)
     @RequestMapping(value = "/registerGuest")
-    public String showRegisterGuest(Model model){
+    public String showRegisterGuest(Model model) {
         return "register_pages/registerGuest";
     }
+
     //method for jump register page SportsSection =)
     @RequestMapping(value = "/registerSportsSection")
-    public String showRegisterSportSection(Model model){
+    public String showRegisterSportSection(Model model) {
         return "register_pages/registerSportsSection";
     }
+
     //method for jump register page Trainer =)
     @RequestMapping(value = "/registerTrainer")
-    public String showRegisterTrainer(Model model){
+    public String showRegisterTrainer(Model model) {
         return "register_pages/registerTrainer";
     }
 
-    @RequestMapping(value = "/showFirstWorkPage",method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView workPage(){
+    @RequestMapping(value = "/showFirstWorkPage", method = {RequestMethod.GET, RequestMethod.POST})
+    public ModelAndView workPage() {
         ModelAndView modelAndView = new ModelAndView();
 
         //create list student,category of group and group for add data to the jsp page
-        List<CategoryGroup> categoryGroupList = new ArrayList<>();
-        List<Group> groupsList = new ArrayList<>();
-        List<Student> studentsList= new ArrayList<>();
+        List<CategoryGroup> categoryGroupList;
+        List<Group> groupsList;
+
+        List<Student> studentsList = studentService.getAll()
+                .stream().filter(s -> s
+                        .getUser().getId() != null && s
+                        .getUser().getId() == getCurrentUser()
+                        .getId()).collect(Collectors.toList());
 //check, if user has this student, add to student list
-  for(Student s: studentService.getAll()) {
+        //check
+        groupsList = groupService.getAll()
+                .stream().filter(g -> g
+                        .getUser().getId() != null && g
+                        .getUser().getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
 
-      if (s.getUser().getId()!=null && s.getUser().getId() == getCurrentUser().getId() ) {
-              studentsList.add(s);
-          }
+        if (!studentsList.isEmpty()) modelAndView.addObject("students", studentsList);
+        if (!groupsList.isEmpty()) modelAndView.addObject("groupsList", groupsList);
 
+        categoryGroupList = categoryService.getAll()
+                .stream().filter(g -> g
+                        .getUser().getId() != null && g
+                        .getUser().getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
 
-  }
-//check
-  for(Group g: groupService.getAll()){
-      if(g.getUser().getId()!=null && g.getUser().getId()==getCurrentUser().getId()){
-          groupsList.add(g);
-      }
-  }
-
-  if (!studentsList.isEmpty()) {
-      modelAndView.addObject("students", studentsList);
-  }
-  if(!groupsList.isEmpty()) {
-      modelAndView.addObject("groupsList", groupsList);
-  }
-
-        for(CategoryGroup g: categoryService.getAll()){
-            if(g.getUser().getId()!=null && g.getUser().getId()==getCurrentUser().getId()){
-                categoryGroupList.add(g);
-            }
-        }
-
-  if(!categoryGroupList.isEmpty()) {
-      modelAndView.addObject("categoryList", categoryGroupList);
-  }
+        if (!categoryGroupList.isEmpty()) modelAndView.addObject("categoryList", categoryGroupList);
 
         int studnetWithoutPhone = 0;
         int studnetWithoutEmail = 0;
         int studentBefore16 = 0;
         int studentAfter16 = 0;
-        for (int i = 0; i<studentsList.size(); i++) {
-            Student student = studentsList.get(i);
-
-            if (student.getPhone()!=null && student.getName()==null && student.getSurname()==null &&
-                    student.getEmail()==null ||
+        for (Student student : studentsList) {
+            if (student.getPhone() != null && student.getName() == null && student.getSurname() == null &&
+                    student.getEmail() == null ||
                     !student.getPhone().equals("") && student.getName().equals("") && student.getSurname().equals("") &&
                             student.getEmail().equals(""))
                 studnetWithoutPhone++;
-            if (student.getEmail()==null || student.getEmail().equals(""))
+            if (student.getEmail() == null || student.getEmail().equals(""))
                 studnetWithoutEmail++;
-            if (student.getAge()!=null && !student.getAge().equals("")) {
+            if (student.getAge() != null && !student.getAge().equals("")) {
                 if (Integer.parseInt(student.getAge()) > 16)
                     studentAfter16++;
                 if (Integer.parseInt(student.getAge()) < 16)
@@ -154,10 +148,8 @@ public class A_PersonsController {
     }
 
 
-
     @InitBinder
-    public void initBinder(WebDataBinder binder)
-    {
+    public void initBinder(WebDataBinder binder) {
         //format of date
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
@@ -183,21 +175,21 @@ public class A_PersonsController {
         theStudent.setRecordDay(dateFormat.format(today));
 
         theStudent.setUser(getCurrentUser());
-        if(!theStudent.getName().equals("") && theStudent.getName().length()>=1 && theStudent.getName().length()<=3){
+        if (!theStudent.getName().equals("") && theStudent.getName().length() >= 1 && theStudent.getName().length() <= 3) {
             model.addAttribute("moreChar", "name must have more then 3 letter");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
 
-        if(!theStudent.getSurname().equals("") && theStudent.getSurname().length()>=1 && theStudent.getSurname().length()<=3){
+        if (!theStudent.getSurname().equals("") && theStudent.getSurname().length() >= 1 && theStudent.getSurname().length() <= 3) {
             model.addAttribute("moreCharSereName", "sere name must have more then 3 letter");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
-        if(!theStudent.getName().equals("") && theStudent.getName().length()>=1 && theStudent.getName().length()<=3){
+        if (!theStudent.getName().equals("") && theStudent.getName().length() >= 1 && theStudent.getName().length() <= 3) {
             model.addAttribute("moreChar", "name must have more then 3 letter");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
 
-        if(!theStudent.getPhone().equals("") && theStudent.getPhone().length()<10){
+        if (!theStudent.getPhone().equals("") && theStudent.getPhone().length() < 10) {
             model.addAttribute("moreNumber", "number must have 10 numbers, like 0987654534");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
@@ -205,23 +197,23 @@ public class A_PersonsController {
 //            model.addAttribute("moreNumber", "number must have 10 numbers, like 0987654534");
 //            return "a_small_fitness/add_form/A_small_fitness_add_student";
 //        }
-        if(!theStudent.getAge().equals("") && theStudent.getAge().equals("0")){
+        if (!theStudent.getAge().equals("") && theStudent.getAge().equals("0")) {
             model.addAttribute("ageException", "Age must be more then 0 ");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
 
-        if(!theStudent.getPhone().equals("") && theStudent.getPhone().length()<10){
+        if (!theStudent.getPhone().equals("") && theStudent.getPhone().length() < 10) {
             model.addAttribute("moreNumber", "number must have 10 numbers, like 0987654534");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
 
         if (theStudent.getName().equals("") && theStudent.getPhone().equals("") && theStudent.getEmail().equals("")
-                 && theStudent.getComments().equals("") && theStudent.getSurname().equals("")&&theStudent.getBirthday()==null
-                &&theStudent.getAge().equals("")) {
+                && theStudent.getComments().equals("") && theStudent.getSurname().equals("") && theStudent.getBirthday() == null
+                && theStudent.getAge().equals("")) {
             model.addAttribute("nullFields", "Add at least one field");
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "a_small_fitness/add_form/A_small_fitness_add_student";
         }
 
@@ -230,23 +222,22 @@ public class A_PersonsController {
     }
 
 
-
     @RequestMapping(value = "/act")
     public String deleteListOfUsers(@RequestParam(value = "delete", required = false) String delete,
                                     @RequestParam(value = "send_email", required = false) String sendEmail, Model model,
-                                    @RequestParam(value = "case", required = false) List <Long> ids,
+                                    @RequestParam(value = "case", required = false) List<Long> ids,
                                     @RequestParam(value = "send_complex_email", required = false) String complexEmail,
                                     @RequestParam(value = "addToGroup", required = false) String addToGroup,
                                     @RequestParam(value = "option1", required = false) String groupName,
                                     @RequestParam(value = "option2", required = false) String trainerGroupName,
                                     @RequestParam(value = "addToTrainerGroup", required = false) String addToTrainerGroup,
                                     RedirectAttributes ra) {
-        if (addToGroup!=null) {
+        if (addToGroup != null) {
             Long groupId = null;
 
             Set<Group> groupSet = new HashSet<>();
             List<Group> groups = groupService.getAll();
-            for (int i = 0; i<groups.size(); i++) {
+            for (int i = 0; i < groups.size(); i++) {
                 if (groups.get(i).getName().equals(groupName)) {
                     groupId = groups.get(i).getId();
 
@@ -254,19 +245,17 @@ public class A_PersonsController {
             }
             groupSet.add(groupService.getGroup(groupId));
 
-            for (int i = 0; i<ids.size(); i++) {
+            for (int i = 0; i < ids.size(); i++) {
                 Student theStudent = studentService.getStudent(ids.get(i));
                 theStudent.setGroups(groupSet);
                 studentService.addStudent(theStudent);
             }
 
-        }
-
-        else if (addToTrainerGroup!=null)  {
+        } else if (addToTrainerGroup != null) {
             Long groupId = null;
             Set<Group> groupSet = new HashSet<>();
             List<Group> groups = groupService.getAll();
-            for (int i = 0; i<groups.size(); i++) {
+            for (int i = 0; i < groups.size(); i++) {
                 if (groups.get(i).getName().equals(trainerGroupName)) {
                     groupId = groups.get(i).getId();
 
@@ -274,38 +263,32 @@ public class A_PersonsController {
             }
             groupSet.add(groupService.getGroup(groupId));
 
-            for (int i = 0; i<ids.size(); i++) {
+            for (int i = 0; i < ids.size(); i++) {
                 Student theStudent = studentService.getStudent(ids.get(i));
                 theStudent.setGroups(groupSet);
                 studentService.addStudent(theStudent);
             }
-        }
+        } else if (delete != null) {
+            if (ids != null)
 
+                for (int i = 0; i < ids.size(); i++) {
 
-        else if(delete!=null){
-            if (ids!=null)
-
-                for (int i =0; i < ids.size();i++) {
-
-                    Student theStudent =studentService.getStudent(ids.get(i));
-                    if(theStudent.getGroups()!=null){
+                    Student theStudent = studentService.getStudent(ids.get(i));
+                    if (theStudent.getGroups() != null) {
                         theStudent.setGroups(null);
                     }
-                    if(theStudent.getGroups()!=null && theStudent.getGroups().iterator().next().getCategoryGroup()!=null){
+                    if (theStudent.getGroups() != null && theStudent.getGroups().iterator().next().getCategoryGroup() != null) {
                         theStudent.getGroups().iterator().next().setCategoryGroup(null);
                     }
                     theStudent.setUser(null);
                     studentService.addStudent(theStudent);
                     studentService.deleteListOfStudents(ids.get(i));
                 }
-        }
-        else if (complexEmail!=null) {
+        } else if (complexEmail != null) {
             //redirect ids to the send complex message page
             ra.addFlashAttribute("id", ids);
             return "redirect:/registerPerson/showComplexMailForm";
-        }
-
-        else if(sendEmail!=null){
+        } else if (sendEmail != null) {
             //redirect our ids to the send message page
             ra.addFlashAttribute("id", ids);
             return "redirect:/registerPerson/showMailForm";
@@ -319,12 +302,12 @@ public class A_PersonsController {
     @PostMapping("/saveStudentAfterUpdate")
     public String saveCustomerAfterUpdate(@ModelAttribute("student") @Valid Student theStudent, BindingResult result, Model model) {
         if (theStudent.getName().equals("") && theStudent.getPhone().equals("") && theStudent.getEmail().equals("")
-                && theStudent.getComments().equals("") && theStudent.getSurname().equals("")&&theStudent.getBirthday()==null
-                &&theStudent.getAge().equals("")) {
+                && theStudent.getComments().equals("") && theStudent.getSurname().equals("") && theStudent.getBirthday() == null
+                && theStudent.getAge().equals("")) {
             model.addAttribute("nullFields", "Add at least one field");
             return "a_small_fitness/update_form/A_small_fitness_update_student";
         }
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "a_small_fitness/update_form/A_small_fitness_update_student";
         }
 
@@ -349,13 +332,12 @@ public class A_PersonsController {
     }
 
 
-
     @RequestMapping("/showMailForm")
-    public String showMailForm(Model theModel, @ModelAttribute("id") List<Long> ids){
+    public String showMailForm(Model theModel, @ModelAttribute("id") List<Long> ids) {
         //get our ids and get user name, and email
         //add received emails to the arrauList
         List<Student> students = new ArrayList<Student>();
-        for (int i = 0; i<ids.size(); i++) {
+        for (int i = 0; i < ids.size(); i++) {
             students.add(studentService.getStudent(ids.get(i)));
             String email = students.get(i).getEmail();
             studenEmail.add(email);
@@ -370,7 +352,7 @@ public class A_PersonsController {
     List<String> studenEmail = new ArrayList<String>();
 
     @PostMapping("/sendMail")
-    public String sendMail(HttpServletRequest request, Model model){
+    public String sendMail(HttpServletRequest request, Model model) {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         System.out.println(email);
@@ -378,8 +360,8 @@ public class A_PersonsController {
         String body = request.getParameter("body");
         String topic = request.getParameter("topic");
         String resultMessage = "";
-        for (int i=0; i<studenEmail.size(); i++) {
-            if (studenEmail.get(i)!=null || !studenEmail.get(i).equals(""));
+        for (int i = 0; i < studenEmail.size(); i++) {
+            if (studenEmail.get(i) != null || !studenEmail.get(i).equals("")) ;
 
             try {
                 sendMailService.sendMailTo(studenEmail.get(i), topic, body, email, password);
@@ -387,8 +369,7 @@ public class A_PersonsController {
             } catch (MessagingException e) {
                 e.printStackTrace();
                 resultMessage = "There's an error: " + e.getMessage();
-            }
-            finally {
+            } finally {
                 email = null;
                 password = null;
                 studenEmail.clear();
@@ -406,24 +387,24 @@ public class A_PersonsController {
     public String showComplexMailForm(Model model, @ModelAttribute("id") List<Long> ids) {
 
         List<Integer> list = new ArrayList<>();
-        for(int i=1;i<30;i++){
+        for (int i = 1; i < 30; i++) {
             list.add(i);
         }
-        model.addAttribute("date" ,list);
+        model.addAttribute("date", list);
         return "send_complex_mail_form";
     }
 
     @RequestMapping("/sendComplexMail")
     public String sendComplexMail(HttpServletRequest request,
-                                  @RequestParam(value = "case", required = false) List <Integer> idN, Model model){
+                                  @RequestParam(value = "case", required = false) List<Integer> idN, Model model) {
         Date d = new Date();
         SimpleDateFormat formatDay = new SimpleDateFormat("dd");
         SimpleDateFormat formatDay2 = new SimpleDateFormat("hh:mm:");
 
         int dayToday = Integer.parseInt(formatDay.format(d));
-        String timeToday =formatDay2.format(d);
+        String timeToday = formatDay2.format(d);
 
-        System.out.println("time in hours = "+timeToday);
+        System.out.println("time in hours = " + timeToday);
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -436,104 +417,100 @@ public class A_PersonsController {
 
         String resultMessage = "";
 
-        for(int k= 0;k<=idN.size();k++){
-            System.out.println(idN.size()+" size");
-            if(idN.get(k)==dayToday ){
-                System.out.println("numbet in if "+dayToday+" its day todat=="+idN.get(k));
+        for (int k = 0; k <= idN.size(); k++) {
+            System.out.println(idN.size() + " size");
+            if (idN.get(k) == dayToday) {
+                System.out.println("numbet in if " + dayToday + " its day todat==" + idN.get(k));
 
-        for (Student s: studentService.getAll()) {
-            if(s.getEmail()!=null || !s.getEmail().equals("")) {
-                try {
-                    System.out.println(s.getEmail() + " send to");
-                    sendMailService.sendMailTo(s.getEmail(), topic, body, email, password);
-                    resultMessage = "The e-mail was sent successfully";
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                    resultMessage = "Error the e-mail was not sent successfully";
-                }
+                for (Student s : studentService.getAll())
+                    if (s.getEmail() != null || !s.getEmail().equals("")) {
+                        try {
+                            System.out.println(s.getEmail() + " send to");
+                            sendMailService.sendMailTo(s.getEmail(), topic, body, email, password);
+                            resultMessage = "The e-mail was sent successfully";
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                            resultMessage = "Error the e-mail was not sent successfully";
+                        }
 
 
-                }
+                    }
 
-            }
-
-          }//end of forEach Student s: studentService.getAll
+            }//end of forEach Student s: studentService.getAll
             model.addAttribute("message", resultMessage);
             return "A_small_fitness_result_of_send_message";
         }//end of idN.get(k)==dayToday
-     // return "A_small_fitness_first_work_Page";
+        // return "A_small_fitness_first_work_Page";
         return email;
 
 
     }
 
 
-
-
- //   sorts students by age(after 16, befor 16 and select all student
+    //   sorts students by age(after 16, befor 16 and select all student
     @RequestMapping("/sort")
     public ModelAndView sortMethod(Model model, @RequestParam("option") String option) {
         ModelAndView modelAndView = new ModelAndView();
         List<Student> students = new ArrayList<>();
 
-            if (option.equals("ageAfterSixteen")) {
-                for (Student s : studentService.getAll()) {
-                    if (s.getUser().getId() != getCurrentUser().getId() || s.getAge() == null || s.getAge().equals("")) {
+        if (option.equals("ageAfterSixteen")) {
+            for (Student s : studentService.getAll()) {
+                if (s.getUser().getId() != getCurrentUser().getId() || s.getAge() == null || s.getAge().equals("")) {
+                    continue;
+                }
+                int age = Integer.parseInt(s.getAge());
+                if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId() &&
+                        age > 16) {
+                    students.add(s);
+
+                }
+            }
+        } else if (option.equals("ageBeforeSixteen")) {
+            for (Student s : studentService.getAll()) {
+                if (s.getUser().getId() != getCurrentUser().getId() || s.getAge() == null || s.getAge().equals("")) {
+                    continue;
+                }
+                int age = Integer.parseInt(s.getAge());
+                if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId() &&
+                        age < 16) {
+                    students.add(s);
+
+                }
+            }
+        } else if (option.equals("getUnknownStudent")) {
+            for (Student s : studentService.getAll()) {
+                if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId()) {
+                    System.out.println(s.getName() + " ---name");
+                    System.out.println(s.getSurname() + "---familia");
+                    System.out.println(s.getEmail() + "===mail");
+                    if (!s.getName().equals("") || !s.getSurname().equals("") || !s.getEmail().equals("")) {
+                        //||!(s.getName() == null) || !(s.getSurname() == null) || !(s.getEmail() == null)
                         continue;
                     }
-                    int age = Integer.parseInt(s.getAge());
-                    if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId() &&
-                            age > 16) {
-                        students.add(s);
-
-                    }
-                }
-            } else if (option.equals("ageBeforeSixteen")) {
-                for (Student s : studentService.getAll()) {
-                    if (s.getUser().getId() != getCurrentUser().getId() || s.getAge() == null || s.getAge().equals("")) {
-                        continue;
-                    }
-                    int age = Integer.parseInt(s.getAge());
-                    if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId() &&
-                            age <16) {
-                        students.add(s);
-
-                    }
-                }
-            } else if (option.equals("getUnknownStudent")) {
-                for (Student s : studentService.getAll()) {
-                    if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId()) {
-                        System.out.println(s.getName()+" ---name");
-                        System.out.println(s.getSurname()+"---familia");
-                        System.out.println(s.getEmail()+"===mail");
-                        if (!s.getName().equals("") || !s.getSurname().equals("") || !s.getEmail().equals("")) {
-                            //||!(s.getName() == null) || !(s.getSurname() == null) || !(s.getEmail() == null)
-                           continue;
-                        }
-                        students.add(s);
-                    }
-
-                }
-            } else if (option.equals("allStudent")) {
-                for (Student s : studentService.getAll()) {
-                    if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId()) {
-                        students.add(s);
-                    }
+                    students.add(s);
                 }
 
             }
+        } else if (option.equals("allStudent")) {
+            for (Student s : studentService.getAll()) {
+                if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId()) {
+                    students.add(s);
+                }
+            }
+
+        }
 
 
-            modelAndView.addObject("students", students);
-            modelAndView.setViewName("A_small_fitness_first_work_Page");
-            return modelAndView;
+        modelAndView.addObject("students", students);
+        modelAndView.setViewName("A_small_fitness_first_work_Page");
+        return modelAndView;
 
 
     }
 
     @RequestMapping(value = "/find")
     public ModelAndView findStudent(@RequestParam(value = "data", required = false) String data,
-                                    @RequestParam(value = "option", required = false) String option){
+                                    @RequestParam(value = "option", required = false) String option) {
 
         ModelAndView modelAndView = new ModelAndView();
         List<Student> students = studentService.getAll();
@@ -547,21 +524,20 @@ public class A_PersonsController {
         if (matcher.matches() == true) {
             Locale russian = new Locale("RU");
             data = data.toLowerCase(russian);
-        }
-        else {
+        } else {
             data = data.toLowerCase();
         }
         if (option.equals("name")) {
-                for (int i = 0; i<students.size(); i++) {
-                    //to prevent CAPS symbols
-                   String names =  students.get(i).getName().toLowerCase();
-                    if (names.equals(data)){
-                        //add full collision
-                       fullCollision.add(students.get(i));
-                    }
-                    if (names.contains(data)) {
-                        //add particular coincidence
-                        particularCollision.add(students.get(i));
+            for (int i = 0; i < students.size(); i++) {
+                //to prevent CAPS symbols
+                String names = students.get(i).getName().toLowerCase();
+                if (names.equals(data)) {
+                    //add full collision
+                    fullCollision.add(students.get(i));
+                }
+                if (names.contains(data)) {
+                    //add particular coincidence
+                    particularCollision.add(students.get(i));
                 }
 
             }
@@ -569,35 +545,33 @@ public class A_PersonsController {
         }
         //do the steps above in the surname and email parts
         else if (option.equals("surname")) {
-            for (int i = 0; i<students.size(); i++) {
-                String names =  students.get(i).getSurname().toLowerCase();
-                if (names.equals(data)){
+            for (int i = 0; i < students.size(); i++) {
+                String names = students.get(i).getSurname().toLowerCase();
+                if (names.equals(data)) {
                     System.out.println(students.get(i));
                     fullCollision.add(students.get(i));
                 }
 
-                    if (names.contains(data)) {
-                        particularCollision.add(students.get(i));
+                if (names.contains(data)) {
+                    particularCollision.add(students.get(i));
                 }
 
             }
-        }
-        else if (option.equals("email")) {
-            for (int i = 0; i<students.size(); i++) {
-                String names =  students.get(i).getEmail().toLowerCase();
-                if (names.equals(data)){
+        } else if (option.equals("email")) {
+            for (int i = 0; i < students.size(); i++) {
+                String names = students.get(i).getEmail().toLowerCase();
+                if (names.equals(data)) {
                     fullCollision.add(students.get(i));
                 }
-                    if (names.contains(data)) {
-                        particularCollision.add(students.get(i));
+                if (names.contains(data)) {
+                    particularCollision.add(students.get(i));
                 }
 
             }
-        }
-        else if (option.equals("phone")) {
-            for (int i = 0; i<students.size(); i++) {
-                String names =  students.get(i).getPhone().toLowerCase();
-                if (names.equals(data)){
+        } else if (option.equals("phone")) {
+            for (int i = 0; i < students.size(); i++) {
+                String names = students.get(i).getPhone().toLowerCase();
+                if (names.equals(data)) {
                     fullCollision.add(students.get(i));
                 }
                 if (names.contains(data)) {
@@ -618,13 +592,13 @@ public class A_PersonsController {
     }
 
 
-
     //take registered user
-    public User getCurrentUser()  throws NotFoundException {
+    public User getCurrentUser() throws NotFoundException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (null == auth) {
-            System.out.println("error Vasia");;
+            System.out.println("error Vasia");
+            ;
         }
 
         Object obj = auth.getPrincipal();
