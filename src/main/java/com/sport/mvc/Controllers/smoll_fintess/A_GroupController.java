@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -55,45 +56,41 @@ public class A_GroupController {
         ModelAndView modelAndView = new ModelAndView();
 
         //create list student,category of group and group for add data to the jsp page
-        List<CategoryGroup> categoryGroupList = new ArrayList<>();
-        List<Group> groupsList = new ArrayList<>();
+        List<CategoryGroup> categoryGroupList;
+        List<Group> groupsList;
         List<Student> studentsListInGroup = new ArrayList<>();
         List<CustomerCard> customerCardsList = new ArrayList<>();
 
-        for (Student s : studentService.getAll()) {
-            for (CustomerCard card : customerCardService.getAll()) {
-
+        for (Student s : studentService.getAll())
+            for (CustomerCard card : customerCardService.getAll())
                 if (card != null && card.getStudent().getId() == s.getId()) {
                     customerCardsList.add(card);
                 }
-            }
-        }
 
-        for (Student s : studentService.getAll()) {
-//check, if user has this student, add to student list
-            if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId()) {
-//check in which og group the students
-                if (s.getGroups().iterator().hasNext() && s.getGroups().iterator().next().getId() == idGroup) {
+        //check, if user has this student, add to student list
+        for (Student s : studentService.getAll())
+            if (s.getUser().getId() != null && s.getUser().getId() == getCurrentUser().getId() && s.getGroups().iterator().hasNext() && s.getGroups().iterator().next().getId() == idGroup) {
 
-                    studentsListInGroup.add(s);
-                }
+                studentsListInGroup.add(s);
             }
 
+        groupsList = groupService.getAll()
+                .stream().filter(g -> g
+                        .getUser()
+                        .getId() != null && g
+                        .getUser().getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
 
-        }
 
-        for (Group g : groupService.getAll()) {
-            if (g.getUser().getId() != null && g.getUser().getId() == getCurrentUser().getId()) {
-                groupsList.add(g);
-            }
-        }
-
-
-        for (CategoryGroup g : categoryService.getAll()) {
-            if (g.getUser().getId() != null && g.getUser().getId() == getCurrentUser().getId()) {
-                categoryGroupList.add(g);
-            }
-        }
+        categoryGroupList = categoryService.getAll()
+                .stream().filter(g -> g
+                        .getUser()
+                        .getId() != null && g
+                        .getUser()
+                        .getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
 
         // show student in his group if group has more then 0 student
 
@@ -114,13 +111,15 @@ public class A_GroupController {
         modelAndView.addObject("chooseGroup", chooseGroup);
 
 
-        List<Price> priceList = new ArrayList<Price>();
-        for (Price p : priceService.getAll()) {
-            if (p.getGroups().getId() != null && p.getGroups().getId() == idGroup) {
-                priceList.add(p);
-
-            }
-        }
+        List<Price> priceList = priceService
+                .getAll()
+                .stream()
+                .filter(p -> p
+                        .getGroups()
+                        .getId() != null && p
+                        .getGroups()
+                        .getId() == idGroup)
+                .collect(Collectors.toList());
 
         if (!priceList.isEmpty()) {
             modelAndView.addObject("priceList", priceList);
@@ -142,13 +141,17 @@ public class A_GroupController {
     public ModelAndView FormForAddInstructors() {
         // create model attribute to bind form data
         Group group = new Group();
-        List<CategoryGroup> categoryGroupList = new ArrayList<>();
+        List<CategoryGroup> categoryGroupList = categoryService
+                .getAll()
+                .stream()
+                .filter(g -> g
+                        .getUser()
+                        .getId() != null && g
+                        .getUser()
+                        .getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
 
-        for (CategoryGroup g : categoryService.getAll()) {
-            if (g.getUser().getId() != null && g.getUser().getId() == getCurrentUser().getId()) {
-                categoryGroupList.add(g);
-            }
-        }
         ModelAndView modelAndView = new ModelAndView();
         if (!categoryGroupList.isEmpty()) {
             modelAndView.addObject("categoryList", categoryGroupList);
@@ -163,9 +166,8 @@ public class A_GroupController {
     public String saveGroupToTrainers(@ModelAttribute("group") Group group, @RequestParam("choose") String categoryName) {
         //add group to DB
         group.setUser(getCurrentUser());
-        if (categoryName.equals("")) {
-            groupService.addGroup(group);
-        } else {
+        if (categoryName.equals("")) groupService.addGroup(group);
+        else {
             for (CategoryGroup category : categoryService.getAll()) {
                 if (category.getName().equals(categoryName)) {
                     group.setCategoryGroup(category);
@@ -183,18 +185,17 @@ public class A_GroupController {
         // create model attribute to bind form data
         Group group = new Group();
         List<CategoryGroup> categoryGroupList = new ArrayList<>();
-        List<String> stringList = new ArrayList<>();
-        for (CategoryGroup category : categoryGroupList) {
-            stringList.add(category.getName());
-        }
+        List<String> stringList = categoryGroupList
+                .stream()
+                .map(CategoryGroup::getName)
+                .collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
 
 
-        for (CategoryGroup g : categoryService.getAll()) {
+        for (CategoryGroup g : categoryService.getAll())
             if (g.getUser().getId() != null && g.getUser().getId() == getCurrentUser().getId()) {
                 categoryGroupList.add(g);
             }
-        }
 
         if (!categoryGroupList.isEmpty()) {
             modelAndView.addObject("categoryList", categoryGroupList);
@@ -214,14 +215,12 @@ public class A_GroupController {
 
             groupService.addGroup(group);
         } else {
-            for (CategoryGroup category : categoryService.getAll()) {
+            for (CategoryGroup category : categoryService.getAll())
                 if (category.getName().equals(categoryName)) {
                     group.setCategoryGroup(category);
 
                     groupService.addGroup(group);
                 }
-
-            }
         }
         return "redirect:/group/showFormForAddGroup";
     }
@@ -265,16 +264,18 @@ public class A_GroupController {
     public ModelAndView FormForDeleteGroups() {
         // create model attribute to bind form data
 
-        List<Group> groupList = new ArrayList<>();
-        for (Group g : groupService.getAll()) {
-            if (g.getUser().getId() != null && g.getUser().getId() == getCurrentUser().getId()) {
-                groupList.add(g);
-            }
-        }
+        List<Group> groupList = groupService
+                .getAll()
+                .stream()
+                .filter(g -> g
+                        .getUser()
+                        .getId() != null && g
+                        .getUser()
+                        .getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
-        if (!groupList.isEmpty()) {
-            modelAndView.addObject("groupList", groupList);
-        }
+        if (!groupList.isEmpty()) modelAndView.addObject("groupList", groupList);
 
         modelAndView.setViewName("a_small_fitness/delete/A_delete_groups");
         //  return "A_small_fitness_add_group";
@@ -284,8 +285,9 @@ public class A_GroupController {
     @RequestMapping("/deleteGroups")
     public String deleteGroup(@RequestParam(value = "idGroup", required = false) List<Long> ids) {
 
-        for (int i = 0; i < ids.size(); i++) {
-            Group group = groupService.getGroup(ids.get(i));
+        for (int i = 0, idsSize = ids.size(); i < idsSize; i++) {
+            Long id = ids.get(i);
+            Group group = groupService.getGroup(id);
             if (!group.getStudents().isEmpty()) {
                 for (Student s : group.getStudents()) {
                     s.setGroups(null);
@@ -301,7 +303,7 @@ public class A_GroupController {
 
             group.setUser(null);
             groupService.addGroup(group);
-            groupService.deleteListOfGroup(ids.get(i));
+            groupService.deleteListOfGroup(id);
 
         }
         return "redirect:/group//ShowGroupPage";
@@ -313,12 +315,15 @@ public class A_GroupController {
         // create model attribute to bind form data
         Group group = new Group();
 
-        List<Group> groupList = new ArrayList<>();
-        for (Group g : groupService.getAll()) {
-            if (g.getUser().getId() != null && g.getUser().getId() == getCurrentUser().getId()) {
-                groupList.add(g);
-            }
-        }
+        List<Group> groupList = groupService.getAll()
+                .stream()
+                .filter(g -> g
+                        .getUser()
+                        .getId() != null && g
+                        .getUser()
+                        .getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
         ModelAndView modelAndView = new ModelAndView();
         if (!groupList.isEmpty()) {
             modelAndView.addObject("groupList", groupList);
@@ -355,12 +360,16 @@ public class A_GroupController {
         // create model attribute to bind form data
         CategoryGroup category = new CategoryGroup();
 
-        List<CategoryGroup> categoryGroupList = new ArrayList<>();
-        for (CategoryGroup c : categoryService.getAll()) {
-            if (c.getUser().getId() != null && c.getUser().getId() == getCurrentUser().getId()) {
-                categoryGroupList.add(c);
-            }
-        }
+        List<CategoryGroup> categoryGroupList = categoryService
+                .getAll()
+                .stream()
+                .filter(c -> c
+                        .getUser()
+                        .getId() != null && c
+                        .getUser()
+                        .getId() == getCurrentUser()
+                        .getId())
+                .collect(Collectors.toList());
 
         ModelAndView modelAndView = new ModelAndView();
         if (!categoryGroupList.isEmpty()) {
@@ -491,10 +500,8 @@ public class A_GroupController {
         if (set != null) {
 
             Student theStudent = new Student();
-            for (int i = 0; i < ids.size(); i++) {
-
+            for (int i = ids.size() - 1; i >= 0; i--) {
                 int price2 = Integer.valueOf(price);
-
                 theStudent = studentService.getStudent(ids.get(i));
                 CustomerCard customerCard = new CustomerCard(price2, firstDte, secondDate, paymentStatus, theStudent);
 

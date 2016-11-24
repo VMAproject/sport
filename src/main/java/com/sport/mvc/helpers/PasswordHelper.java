@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Component(value = "passwordHelper")
-public class PasswordHelper implements PasswordEncoder{
+public class PasswordHelper implements PasswordEncoder {
 
     private MessageDigest md;
 
@@ -24,7 +24,7 @@ public class PasswordHelper implements PasswordEncoder{
         System.out.println("user: " + hash("user"));  //ee11cbb19052e40b07aac0ca060c23ee
     }
 
-    public static  String hash(CharSequence rawPassword) {
+    public static String hash(CharSequence rawPassword) {
         MessageDigest md = null;
 
         try {
@@ -33,16 +33,16 @@ public class PasswordHelper implements PasswordEncoder{
             e.printStackTrace();
         }
 
-        if(md == null) {
+        if (md == null) {
             return rawPassword.toString();
         }
 
         md.update(rawPassword.toString().getBytes());
 
-        byte byteData[] =md.digest();
+        byte byteData[] = md.digest();
 
         StringBuffer hexString = new StringBuffer();
-        for(int i = 0; i < byteData.length; i++) {
+        for (int i = byteData.length - 1; i >= 0; i--) {
             String hex = Integer.toHexString(0xff & byteData[i]);
             if (hex.length() == 1)
                 hexString.append('0');
@@ -54,7 +54,7 @@ public class PasswordHelper implements PasswordEncoder{
     @Override
     public String encode(CharSequence rawPassword) {
 
-        if(md == null) {
+        if (md == null) {
             return rawPassword.toString();
         }
 
@@ -63,7 +63,7 @@ public class PasswordHelper implements PasswordEncoder{
         byte byteData[] = md.digest();
 
         StringBuffer hexString = new StringBuffer();
-        for(int i = 0; i < byteData.length; i++) {
+        for (int i = byteData.length - 1; i >= 0; i--) {
             String hex = Integer.toHexString(0xff & byteData[i]);
             if (hex.length() == 1)
                 hexString.append('0');

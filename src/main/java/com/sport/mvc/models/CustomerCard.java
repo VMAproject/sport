@@ -8,7 +8,7 @@ public class CustomerCard extends Model {
 
     private static final long serialVersionUID = -7420101268348647447L;
 
-    @Column(name ="price")
+    @Column(name = "price")
     private int price;
 
 
@@ -23,8 +23,6 @@ public class CustomerCard extends Model {
     private String status;
 
 
-
-
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "student_id")
     private Student student;
@@ -34,7 +32,7 @@ public class CustomerCard extends Model {
         super();
     }
 
-    public CustomerCard(int price, String start, String finish,String status, Student student) {
+    public CustomerCard(int price, String start, String finish, String status, Student student) {
         this.status = status;
         this.start = start;
         this.finish = finish;

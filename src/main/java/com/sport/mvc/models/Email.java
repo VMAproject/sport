@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "email")
-public class Email extends Model{
+public class Email extends Model {
 
     private static final long serialVersionUID = -7486118229572988320L;
 

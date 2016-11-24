@@ -36,9 +36,8 @@ public class Group extends Model {
     private CategoryGroup categoryGroup;
 
 
-
     @OneToOne(mappedBy = "groups", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Price prices ;
+    private Price prices;
 
     public Group() {
         super();
@@ -91,7 +90,6 @@ public class Group extends Model {
     public void setMain(boolean main) {
         isMain = main;
     }
-
 
 
     public Price getPrices() {

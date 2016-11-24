@@ -34,16 +34,13 @@ public class Student extends Model {
     private String post;
 
 
-
     @Column(name = "email")
     @Email
     private String email;
 
 
-
-
     @Column(name = "birthday")
-    @DateTimeFormat(pattern="dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Past
     private Date birthday;
 
@@ -54,7 +51,7 @@ public class Student extends Model {
     @Column(name = "age")
     private String age;
 
-   // @Pattern(regexp = "[0-9]{10,10}+", message="{Pattern.student.phone}")
+    // @Pattern(regexp = "[0-9]{10,10}+", message="{Pattern.student.phone}")
     @Column(name = "phone")
     private String phone;
 
