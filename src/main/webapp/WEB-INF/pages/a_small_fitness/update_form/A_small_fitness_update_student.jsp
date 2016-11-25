@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 12.10.2016
-  Time: 15:29
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page isELIgnored="false" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -36,9 +30,7 @@
             <li><a href="#">Главная</a></li>
             <li><a href="/group/ShowGroupPage">Группы</a></li>
             <li><a href="/registerPerson/showFirstWorkPage">Кабинет</a></li>
-            <%--<li><a href="#">Просмотр моей страници</a></li>--%>
-            <%--<li><a href="#">Статистика</a></li>--%>
-            <%--<li><a href="#">Расчеты</a></li>--%>
+
         </ul>
 
         <!-- LOGIN FORM -->
@@ -53,6 +45,7 @@
 
 <div class="container addstudent_form">
     <h1>Add student</h1>
+    <h2>${nullFields}</h2>
     <br>
     <form:form action="saveStudentAfterUpdate" modelAttribute="student" method="POST">
 
@@ -83,15 +76,19 @@
                 <td><label>Birthday in format (dd.mm.yyyy):</label></td>
                 <td><form:input path="birthday" /><form:errors path="birthday" class="alert alert-danger"></form:errors></td>
             </tr>
-
             <tr>
-                <td><label>Position:</label></td>
-                    <%--<td><form:input path="p" /></td>--%>
+                <td><label>Возвраст:</label></td>
+                <td><form:input path="age" /></td>
+            </tr>
+            <tr>
+                <td><label>Post:</label></td>
+                <td><form:input path="post" /></td>
             </tr>
             <tr>
                 <td><label>Comment:</label></td>
-                    <%--<td><form:input path="" /></td>--%>
+                <td><form:input path="comments"  /></td>
             </tr>
+            <form:input type="hidden" path="recordDay"/>
             <tr>
                 <td><label></label></td>
                 <td><input type="submit" value="Save" class="save" /></td>

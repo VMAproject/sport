@@ -31,7 +31,7 @@
 
         <!-- LOGIN FORM -->
         <form action="#" class="login">
-            <input type="text" placeholder="Login" required>
+            <input type="text" placeholder="Login" required >
             <input type="password" placeholder="Password" required>
             <input type="submit" value="Sign In">
         </form>
@@ -48,10 +48,10 @@
             <tbody>
             <tr>
                 <td><label>Name:</label></td>
-                <td><form:input path="nameTraine" /></td>
+                <td><form:input path="name" /></td>
             </tr>
             <td><label></label></td>
-                <td><input type="submit" value="Save" class="save" /></td>
+            <td><input type="submit" value="Save" class="save" /></td>
             </tr>
 
             </tbody>

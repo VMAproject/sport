@@ -1,46 +1,39 @@
 package com.sport.mvc.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
 public class User extends Model {
 
     private static final long serialVersionUID = -8950386400041310256L;
-    @NotNull(message = "Имя должно быть задано")
-    @Size(min = 5, message = "Длина имени должна быть больше трех")
+
     @Column(name = "name")
     private String name;
 
-    @NotNull(message = "Фамилия должна быть задана")
-    @Size(min = 5, message = "Длина фамилии должна быть больше трех")
     @Column(name = "surname")
     private String surname;
 
-    @org.hibernate.validator.constraints.Email
     @Column(name = "email")
     private String email;
 
     @Column(name = "birthday")
     private Date birthday;
 
-    @Pattern(regexp = "^\\+?38\\(?0\\d{2}\\)?\\d{3}-?\\d{2}-?\\d{2}$",
-            message = "Некоректный номер телефона")
     @Column(name = "phone")
     private String phone;
 
-    @Size(min = 5, message = "Длина логина должна быть больше 5 символов")
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username")
     private String username;
 
-    @Size(min = 5, message = "Длина пароля должна быть больше 5 символов")
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "city")
@@ -60,14 +53,14 @@ public class User extends Model {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Group> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Student> students = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_sport", joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
+        @JoinTable(name = "user_sport", joinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "sport_id", nullable = false, updatable = false))
     private Set<Sport> sports = new HashSet<>();
 

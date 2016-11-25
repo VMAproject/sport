@@ -27,22 +27,18 @@
 
 <SCRIPT language="javascript">
     $(function(){
-
         // add multiple select / deselect functionality
         $("#selectall").click(function () {
             $('.case').attr('checked', this.checked);
         });
-
         // if all checkbox are selected, check the selectall checkbox
         // and viceversa
         $(".case").click(function(){
-
             if($(".case").length == $(".case:checked").length) {
                 $("#selectall").attr("checked", "checked");
             } else {
                 $("#selectall").removeAttr("checked");
             }
-
         });
     });
 </SCRIPT>
@@ -51,182 +47,166 @@
 
 
 <div class="navigate">
-<ul class="navbar cf">
+    <ul class="navbar cf">
 
-    <li><a href="/registerPerson/showFirstWorkPage">Cabinet</a></li>
-    <li><a href="">Groups</a>
-        <%--//create controls item for updeting group--%>
-        <ul>
-            <li><a href="#">controls</a>
-            <ul>
-                <li><a href="/group//showFormForUpdate">Update</a></li>
-                <li><a href="#">Delete</a></li>
-                <li><a href="/group//showFormForAddGroup">new group</a></li>
-            </ul>
-            </li>
-            <li><a href="#">Category</a>
-                <%--//create controls item for updeting categoty of group--%>
-                <ul>
-                    <li><a href="#">controls</a>
-                     <ul>
-                        <li><a href="/group//showFormForUpdateCategory">Update</a></li>
-                        <li><a href="#">Delete</a></li>
-                        <li><a href="/group//showFormForAddCategory">new</a></li>
-                     </ul>
-                    </li>
-                    <%--//create and show new category--%>
-                    <c:forEach items="${categoryList}" var="category">
-                    <c:if test="${category.name!=null}">
-                    <li><a href="#"><c:out value="${category.name}"/></a>
-                        <ul>
-                                <%--//show groups if they location in one of the category--%>
-                        <c:forEach items="${groupsList}" var="groups">
-                            <%--//create links for click--%>
-                            <c:url var="takeGroupId" value="/group//takeIdGroup" >
-                                <c:param name="groupId" value="${groups.id}"/>
-                            </c:url>
-
-                            <c:if test="${groups.categoryGroup.id.equals(category.id)}">
-                                <li> <a href="${takeGroupId}"> <c:out value="${groups.name}"/></a></li>
-                            </c:if>
-                        </c:forEach>
-                        </ul>
-                    </li>
-                    </c:if>
-                    </c:forEach>
-                </ul>
-            </li>
-            <%--// Empty li--%>
-            <li><a href="#">.....</a></li>
-            <%--//show new creating groups--%>
-            <c:forEach items="${groupsList}" var="groups">
-                <%--// check, if groups don't belongs some of category, the show it--%>
-                  <c:if test="${groups.categoryGroup.id==null && groups.name!=null}">
-                      <%--//create links for click--%>
-       <c:url var="takeGroupId" value="/group//takeIdGroup" >
-        <c:param name="groupId" value="${groups.id}"/>
-       </c:url>
-
-                      <li><a href="${takeGroupId}"><c:out value="${groups.name}"/></a></li>
-                 </c:if>
-              </c:forEach>
-        </ul>
-    </li>
-    <%--//close groups menu, and show first level menu items--%>
-
-
-    <%--//add this functionality to the Instructors Groups--%>
-    <li><a href="#">Instructors Groups</a>
-    <ul>
-        <li><a href="#">controls</a>
-            <ul>
-                <li><a href="/group//showFormForUpdate">Update</a></li>
-                <li><a href="#">Delete</a></li>
-                <li><a href="/group//AddGroupToInstructorsForm">new group</a></li>
-            </ul>
-        </li>
-        <li><a href="#">Category</a>
-            <%--//create controls item for updeting categoty of group--%>
+        <li><a href="/registerPerson/showFirstWorkPage">Cabinet</a></li>
+        <li><a href="">Groups</a>
+            <%--//create controls item for updeting group--%>
             <ul>
                 <li><a href="#">controls</a>
                     <ul>
-                        <li><a href="/group//showFormForUpdateCategory">Update</a></li>
-                        <li><a href="#">Delete</a></li>
-                        <li><a href="/group//showFormForAddCategoryTrainers">new trainers</a></li>
+                        <li><a href="/group//showFormForUpdate">Update</a></li>
+                        <li><a href="/group//showFormForDelete">Delete</a></li>
+                        <li><a href="/group//showFormForAddGroup">new group</a></li>
                     </ul>
                 </li>
-                <%--//create and show new category--%>
-                <c:forEach items="${categoryList}" var="category">
-                    <c:if test="${category.nameTraine!=null}">
-                        <li><a href="#"><c:out value="${category.nameTraine}"/></a>
+                <li><a href="#">Category</a>
+                    <%--//create controls item for updeting categoty of group--%>
+                    <ul>
+                        <li><a href="#">controls</a>
                             <ul>
-                                    <%--//show groups if they location in one of the category--%>
-                                <c:forEach items="${groupsList}" var="groups">
-                                    <%--//create links for click--%>
-                                    <c:url var="takeGroupId" value="/group//takeIdGroup" >
-                                        <c:param name="groupId" value="${groups.id}"/>
-                                    </c:url>
-
-                                    <c:if test="${groups.categoryGroup.id.equals(category.id)}">
-                                        <li> <a href="${takeGroupId}"> <c:out value="${groups.nameTraine}"/></a></li>
-                                    </c:if>
-                                </c:forEach>
+                                <li><a href="/group//showFormForUpdateCategory">Update</a></li>
+                                <li><a href="#">Delete</a></li>
+                                <li><a href="/group//showFormForAddCategory">new</a></li>
                             </ul>
                         </li>
+                        <%--//create and show new category--%>
+                        <c:forEach items="${categoryList}" var="category">
+                            <c:if test="${category.main==true}">
+                                <li><a href="#"><c:out value="${category.name}"/></a>
+                                    <ul>
+                                            <%--//show groups if they location in one of the category--%>
+                                        <c:forEach items="${groupsList}" var="groups">
+                                            <%--//create links for click--%>
+                                            <c:url var="takeGroupId" value="/group//takeIdGroup" >
+                                                <c:param name="groupId" value="${groups.id}"/>
+                                            </c:url>
+
+                                            <c:if test="${groups.categoryGroup.id==category.id}">
+                                                <li> <a href="${takeGroupId}"> <c:out value="${groups.name}"/></a></li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                </li>
+                <li><a href="/group//showFormAddOrChangePriceAbonement">Abonement Price</a></li>
+                <%--// Empty li--%>
+                <li><a href="#">.....</a></li>
+                <%--//show new creating groups--%>
+                <c:forEach items="${groupsList}" var="groups">
+                    <%--// check, if groups don't belongs some of category, the show it--%>
+                    <c:if test="${groups.categoryGroup.id==null && groups.main==true}">
+                        <%--//create links for click--%>
+                        <c:url var="takeGroupId" value="/group//takeIdGroup" >
+                            <c:param name="groupId" value="${groups.id}"/>
+                        </c:url>
+
+                        <li><a href="${takeGroupId}"><c:out value="${groups.name}"/></a></li>
                     </c:if>
                 </c:forEach>
             </ul>
         </li>
-        <%--// Empty li--%>
-        <li><a href="#">.....</a></li>
-        <%--//show new creating groups--%>
-        <c:forEach items="${groupsList}" var="groups">
-            <%--// check, if groups don't belongs some of category, the show it--%>
-            <c:if test="${groups.categoryGroup.id==null && groups.nameTraine!=null}">
-                <%--//create links for click--%>
-                <c:url var="takeGroupId" value="/group//takeIdGroup" >
-                    <c:param name="groupId" value="${groups.id}"/>
-                </c:url>
+        <%--//close groups menu, and show first level menu items--%>
 
-                <li><a href="${takeGroupId}"><c:out value="${groups.nameTraine}"/></a></li>
-            </c:if>
-        </c:forEach>
+
+        <%--//add this functionality to the Instructors Groups--%>
+        <li><a href="#">Instructors Groups</a>
+            <ul>
+                <li><a href="#">controls</a>
+                    <ul>
+                        <li><a href="/group//showFormForUpdate">Update</a></li>
+                        <li><a href="/group//showFormForDelete">Delete</a></li>
+                        <li><a href="/group//AddGroupToInstructorsForm">new group</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Category</a>
+                    <%--//create controls item for updeting categoty of group--%>
+                    <ul>
+                        <li><a href="#">controls</a>
+                            <ul>
+                                <li><a href="/group//showFormForUpdateCategory">Update</a></li>
+                                <li><a href="#">Delete</a></li>
+                                <li><a href="/group//showFormForAddCategoryTrainers">new trainers</a></li>
+                            </ul>
+                        </li>
+                        <%--//create and show new category--%>
+                        <c:forEach items="${categoryList}" var="category">
+                            <c:if test="${category.main!=true}">
+                                <li><a href="#"><c:out value="${category.name}"/></a>
+                                    <ul>
+                                            <%--//show groups if they location in one of the category--%>
+                                        <c:forEach items="${groupsList}" var="groups">
+                                            <%--//create links for click--%>
+                                            <c:url var="takeGroupId" value="/group//takeIdGroup" >
+                                                <c:param name="groupId" value="${groups.id}"/>
+                                            </c:url>
+
+                                            <c:if test="${groups.categoryGroup.id.equals(category.id)}">
+                                                <li> <a href="${takeGroupId}"> <c:out value="${groups.name}"/></a></li>
+                                            </c:if>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
+                            </c:if>
+                        </c:forEach>
+                    </ul>
+                </li>
+                <%--// Empty li--%>
+                <li><a href="#">.....</a></li>
+                <%--//show new creating groups--%>
+                <c:forEach items="${groupsList}" var="groups">
+                    <%--// check, if groups don't belongs some of category, the show it--%>
+                    <c:if test="${groups.categoryGroup.id==null && groups.main!=true}">
+                        <%--//create links for click--%>
+                        <c:url var="takeGroupId" value="/group//takeIdGroup" >
+                            <c:param name="groupId" value="${groups.id}"/>
+                        </c:url>
+
+                        <li><a href="${takeGroupId}"><c:out value="${groups.name}"/></a></li>
+                    </c:if>
+                </c:forEach>
+            </ul>
+        </li>
+        <%--//close groups menu, and show first level menu items--%>
+
+        <li><a href="#">Statistic</a></li>
+
+        <li><a href="#">Finance</a></li>
+
+        <li>
+            <c:set value="${chooseGroup}" var="group"/>
+            <a href="#">You in ${group.name} group</a>
+        </li>
+         <li><a href="#">${currentUser.username}  ${currentUser.email}</a></li>
+        <li id="out"><a href='<c:url value="/logout"></c:url>' class="btn btn-default btn-flat">Sign OUT</a></li>
     </ul>
-    </li>
-    <%--//close groups menu, and show first level menu items--%>
 
 
-
-
-
-
-    <li><a href="#">Statistic</a></li>
-
-    <li><a href="#">Finance</a></li>
-
-   <li>
-       <c:set value="${chooseNewGroup}" var="groupName"/>
-       <c:set value="${chooseNewGroupTrainer}" var="groupTrainer"/>
-       <c:choose>
-           <c:when test="${groupTrainer!=null}">
-               <h5>You in ${groupTrainer} group </h5>
-           </c:when>
-           <c:when test="${groupName!=null}">
-               <h5>You in ${groupName} group</h5>
-           </c:when>
-           <c:otherwise >
-               <h5>You in your cabinet</h5>
-           </c:otherwise>
-
-       </c:choose>
-   </li>
-    <li id="out"><a href="#">Out</a></li>
-</ul>
 </div>
 
 
 <div>
-    <c:set value="${chooseNewGroup}" var="groupName"/>
-    <c:set value="${chooseNewGroupTrainer}" var="groupTrainer"/>
-
+    <c:set value="${chooseTrainerGroup}" var="groupTrainer"/>
+    <c:set value="${chooseGroup}" var="group"/>
 
     <c:choose>
-        <c:when test="${groupTrainer!=null}">
-            <h1>You in ${groupTrainer} group </h1>
+        <c:when test="${groupTrainer}!=null">
+            <h4>You in ${groupTrainer} group </h4>
         </c:when>
-        <c:when test="${groupName!=null}">
-            <h1>You in ${groupName} group</h1>
+        <c:when test="${groupTrainer}==null">
+            <h4>You in ${group} group </h4>
         </c:when>
-        <c:otherwise >
-            <h1>You in you cabinet</h1>
-        </c:otherwise>
-
     </c:choose>
 
 </div>
 
 <!-- MAIN SECTION -->
 <main>
+
+
 
     <div class="work_form">
 
@@ -268,7 +248,7 @@
                 <input type="button" value="Добавить"
                        onclick="window.location.href='addStudentToGroupForm'; return false;" class="add-button"
                 />
-                <input type="submit" name="deletee" value="удалить">
+                <input type="submit" name="delete" value="удалить">
                 <input type="submit" name="send_email" value="send email" class="add-button"
                 />
                 <input type="button" value="Отправить смс">
@@ -280,7 +260,7 @@
     <br/><br/>
 
     <table border="3"  width="100%"   cellpadding="4" cellpacing="3">
-       <thead>
+        <thead>
         <th>Имя</th>
         <th>Фамилия</th>
         <th>Телефон</th>
@@ -292,16 +272,38 @@
         <th>Статус оплаты</th>
         <th>Блок<input type="radio"></th>
         <th><input type="checkbox" id="selectall"></th>
+       <th>Редактировать поле</th>
         </thead>
         <tbody>
 
-        <c:forEach items="${studentList}" var="student">
+        <c:forEach items="${students}" var="student">
             <tr align="center">
                 <td>${student.name}</td>
                 <td align="left">${student.surname}</td>
                 <td>${student.phone}</td>
                 <td>${student.email}</td>
-                <td></td>
+
+                <td>
+
+                    <select name="selectedPrice">
+                        <option value="0">abonement price</option>
+                        <c:forEach items="${priceList}" var="prices">
+                            <%--<c:choose>--%>
+                            <c:if test="${prices.priceMonth!=0}">
+                            <option value="prices"><c:out value="${prices.priceMonth}"/></option>
+                            </c:if>
+                                <c:if test="${prices.priceMonth!=0}">
+                                    <option value="prices"><c:out value="${prices.priceMonthHalf}"/></option>
+                                </c:if>
+                                <c:if test="${prices.priceMonth!=0}">
+                                    <option value="prices"><c:out value="${prices.priceSingle}"/></option>
+                                </c:if>
+                        <%--</c:choose>--%>
+                        </c:forEach>
+                    </select>
+
+                </td>
+
                 <td></td>
                 <td>
                     <select name="selectedStartDate">
@@ -318,7 +320,7 @@
                     <select name="selectedFinisfDate">
                         <option value="0">выберите дату</option>
                         <c:forEach items="${listOfMonth}" var="listMonth">
-                        <option value="listMonth"><c:out value="${listMonth}"/></option>
+                            <option value="listMonth"><c:out value="${listMonth}"/></option>
                         </c:forEach>
                     </select>
 
@@ -333,7 +335,6 @@
                 </td>
                 <td > <input type="radio"></td>
                 <td><input type="checkbox" class="case", name="case" value="${student.id}"></td>
-                <td align="left"></td>
                 <td>
                     <!-- construct an "update" link with customer id -->
                     <c:url var="updateLink" value="/registerPerson/showFormForUpdate" >
@@ -346,7 +347,7 @@
                 </td>
             </tr>
         </c:forEach>
-</tbody>
+        </tbody>
     </table>
     </form>
 

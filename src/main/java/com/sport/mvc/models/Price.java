@@ -26,17 +26,6 @@ public class Price extends Model{
     private int priceMonthHalf;
 
 
-    @Column(name = "price_year")
-    private int priceYear;
-
-    @Column(name = "price_individual")
-    private int priceIndividual;
-
-    @Column(name = "price_other")
-    private int priceOther;
-
-
-
 
     @OneToMany(mappedBy = "price", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CustomerCard> cards = new HashSet<>();
@@ -118,30 +107,6 @@ public class Price extends Model{
 
     public void setGroups(Group groups) {
         this.groups = groups;
-    }
-
-    public int getPriceYear() {
-        return priceYear;
-    }
-
-    public void setPriceYear(int priceYear) {
-        this.priceYear = priceYear;
-    }
-
-    public int getPriceIndividual() {
-        return priceIndividual;
-    }
-
-    public void setPriceIndividual(int priceIndividual) {
-        this.priceIndividual = priceIndividual;
-    }
-
-    public int getPriceOther() {
-        return priceOther;
-    }
-
-    public void setPriceOther(int priceOther) {
-        this.priceOther = priceOther;
     }
 
     //

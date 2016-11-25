@@ -4,11 +4,17 @@ import com.sport.mvc.socialAdvertisement.SendMailService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.*;
+import java.util.Properties;
+
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 
 @Service(value = "mail")
 public class SendMailServiceImpl implements SendMailService {
@@ -18,13 +24,12 @@ public class SendMailServiceImpl implements SendMailService {
 
     // @Resource(name = "art")
     Session session;
-
-    @Override
-    @Transactional
-    public void sendMailTo(String mail, String subjectTo, String bodyTo, String emailFrom, String passwordFrom)
-            throws AddressException, MessagingException {
-        subject = subjectTo;
-        body = bodyTo;
+@Override
+@Transactional
+    public void sendMailTo(String mail, String subjectTo,String bodyTo, String emailFrom, String passwordFrom)
+        throws AddressException, MessagingException {
+     subject =subjectTo;
+     body=bodyTo;
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -33,22 +38,22 @@ public class SendMailServiceImpl implements SendMailService {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        session = Session.getDefaultInstance(props, new Authenticator() {
+        session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(emailFrom, passwordFrom);
             }
         });
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(emailFrom));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
-        message.setSubject(subject);
-        // message.setText("Dear Mail Crawler," + "\n\n No spam to my email,
-        // please!");
-        message.setText(body);
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(emailFrom));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
+            message.setSubject(subject);
+            // message.setText("Dear Mail Crawler," + "\n\n No spam to my email,
+            // please!");
+            message.setText(body);
 
-        Transport.send(message);
+            Transport.send(message);
 
-        System.out.println("Done");
+            System.out.println("Done");
 
 
     }

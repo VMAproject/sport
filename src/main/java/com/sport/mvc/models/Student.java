@@ -1,11 +1,15 @@
 package com.sport.mvc.models;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,13 +38,16 @@ public class Student extends Model {
     private String post;
 
 
+
     @Column(name = "email")
     @Email
     private String email;
 
 
+
+
     @Column(name = "birthday")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern="dd/MM/yyyy")
     @Past
     private Date birthday;
 
@@ -51,7 +58,7 @@ public class Student extends Model {
     @Column(name = "age")
     private String age;
 
-    // @Pattern(regexp = "[0-9]{10,10}+", message="{Pattern.student.phone}")
+   // @Pattern(regexp = "[0-9]{10,10}+", message="{Pattern.student.phone}")
     @Column(name = "phone")
     private String phone;
 
