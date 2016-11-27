@@ -1,4 +1,4 @@
-package com.sport.mvc.controllers.smoll_fintess;
+package com.sport.mvc.Controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.CategoryGroup;
@@ -12,6 +12,7 @@ import com.sport.mvc.socialAdvertisement.SendMailService;
 import com.sport.mvc.models.Student;
 import com.sport.mvc.services.StudentService;
 
+import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -123,7 +124,33 @@ public class A_PersonsController {
       modelAndView.addObject("categoryList", categoryGroupList);
   }
 
+        int studnetWithoutPhone = 0;
+        int studnetWithoutEmail = 0;
+        int studentBefore16 = 0;
+        int studentAfter16 = 0;
+        for (int i = 0; i<studentsList.size(); i++) {
+            Student student = studentsList.get(i);
+
+            if (student.getPhone()!=null && student.getName()==null && student.getSurname()==null &&
+                    student.getEmail()==null ||
+                    !student.getPhone().equals("") && student.getName().equals("") && student.getSurname().equals("") &&
+                            student.getEmail().equals(""))
+                studnetWithoutPhone++;
+            if (student.getEmail()==null || student.getEmail().equals(""))
+                studnetWithoutEmail++;
+            if (student.getAge()!=null && !student.getAge().equals("")) {
+                if (Integer.parseInt(student.getAge()) > 16)
+                    studentAfter16++;
+                if (Integer.parseInt(student.getAge()) < 16)
+                    studentBefore16++;
+            }
+        }
+        modelAndView.addObject("withoutPhone", studnetWithoutPhone);
+        modelAndView.addObject("withoutEmail", studnetWithoutEmail);
+        modelAndView.addObject("before16", studentBefore16);
+        modelAndView.addObject("after16", studentAfter16);
         modelAndView.addObject("currentUser", getCurrentUser());
+        modelAndView.addObject("countOfRecords", studentsList.size());
         modelAndView.setViewName("A_small_fitness_first_work_Page");
         return modelAndView;
 
@@ -135,7 +162,7 @@ public class A_PersonsController {
     public void initBinder(WebDataBinder binder)
     {
         //format of date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(
                 dateFormat, true));

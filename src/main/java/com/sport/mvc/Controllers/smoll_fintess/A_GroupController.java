@@ -1,4 +1,4 @@
-package com.sport.mvc.controllers.smoll_fintess;
+package com.sport.mvc.Controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.*;
@@ -14,12 +14,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.xml.ws.RequestWrapper;
 import java.util.*;
 
 
 @Controller
 @RequestMapping(value = "/group/")
 public class A_GroupController {
+
+    @Autowired
+    @Qualifier("customerCardService")
+    private CustomerCardService customerCardService;
+
 
     @Autowired
     @Qualifier("groupService")
@@ -53,6 +59,16 @@ public class A_GroupController {
         List<CategoryGroup> categoryGroupList = new ArrayList<>();
         List<Group> groupsList = new ArrayList<>();
         List<Student> studentsListInGroup = new ArrayList<>();
+        List<CustomerCard> customerCardsList = new ArrayList<>();
+
+        for (Student s : studentService.getAll()) {
+            for (CustomerCard card : customerCardService.getAll()) {
+
+                if (card != null && card.getStudent().getId() ==s.getId()){
+                    customerCardsList.add(card);
+                }
+            }
+        }
 
         for (Student s : studentService.getAll()) {
 //check, if user has this student, add to student list
@@ -97,23 +113,24 @@ public class A_GroupController {
 
         Group chooseGroup = groupService.getGroup(idGroup);
             modelAndView.addObject("chooseGroup", chooseGroup);
-            System.out.println(chooseGroup.getName());
+
 
         List<Price> priceList = new ArrayList<Price>();
         for(Price p: priceService.getAll() ){
-            if( p.getUser().getId()!=null && p.getUser().getId()==getCurrentUser().getId() &&
-                    p.getGroups().getId()!=null && p.getGroups().getId()==idGroup ){
+            if(p.getGroups().getId()!=null && p.getGroups().getId()==idGroup ){
                 priceList.add(p);
 
             }
         }
-        for(Price p: priceList){
-            System.out.println(p.getPriceSingle()+" price to jsp");
-        }
+
         if(!priceList.isEmpty()){
             modelAndView.addObject("priceList",priceList);
         }
 
+        if(!customerCardsList.isEmpty()){
+            modelAndView.addObject("customerCardList", customerCardsList);
+        }
+        modelAndView.addObject("countOfRecords", studentsListInGroup.size());
         //add to page model list of day in current month from method List<String> ListOfDayInMonth()
         modelAndView.addObject("listOfMonth", ListOfDayInMonth());
         modelAndView.addObject("currentUser", getCurrentUser());
@@ -386,9 +403,13 @@ public class A_GroupController {
 
 
     @RequestMapping("saveStudentToGroup")
-    public String saveStudentToGroup(@ModelAttribute("student") Student theStudent) {
+    public String saveStudentToGroup(@ModelAttribute("student") Student theStudent, Model model) {
         Set<Group> groupSet = new HashSet<>();
-
+        if (theStudent.getName().equals("") && theStudent.getPhone().equals("") && theStudent.getEmail().equals("")
+                 && theStudent.getSurname().equals("")) {
+            model.addAttribute("nullFields", "Add at least one field");
+            return "a_small_fitness/add_form/A_add_to_group_Student";
+        }
         groupSet.add(groupService.getGroup(idGroup));
         theStudent.setUser(getCurrentUser());
         theStudent.setGroups(groupSet);
@@ -462,12 +483,36 @@ public class A_GroupController {
     }
 
 
-    @RequestMapping("/delete")
-    public String deleteListOfUsers(@RequestParam(value = "delete", required = false) String deletee,
-                                    @RequestParam(value = "case", required = false) List<Long> ids) {
+    @RequestMapping(value = "/act")
+    public String deleteListOfUsers(@RequestParam(value = "delete", required = false) String delete,
+                                    @RequestParam(value = "case", required = false) List<Long> ids,
+                                    @RequestParam(value = "set", required = false) String set,
+                                    @RequestParam(value = "selectedPrice", required = false) String price,
+                                    @RequestParam(value = "selectedStartDate", required = false) String firstDte,
+                                    @RequestParam(value = "selectedFinisfDate", required = false) String secondDate,
+                                    @RequestParam(value = "selectedCode", required = false) String paymentStatus) {
+        if (set != null) {
+
+            Student  theStudent = new Student();
+            for(int i=0; i<ids.size();i++){
+
+                int price2 = Integer.valueOf(price);
+
+                theStudent =studentService.getStudent(ids.get(i));
+                CustomerCard customerCard = new CustomerCard(price2,firstDte,secondDate,paymentStatus,theStudent);
+
+                customerCardService.addCustomerCard(customerCard);
 
 
-        if (deletee != null) {
+            }
+
+
+
+
+        }
+
+
+       else if (delete != null) {
             if (ids != null)
 
                 for (int i = 0; i < ids.size(); i++) {
@@ -510,6 +555,9 @@ public class A_GroupController {
                         p.setPriceMonth(price.getPriceMonth());
                         p.setPriceMonthHalf(price.getPriceMonthHalf());
                         p.setPriceSingle(price.getPriceSingle());
+                    p.setPriceYear(price.getPriceYear());
+                    p.setPriceIndividual(price.getPriceIndividual());
+                    p.setPriceOther(price.getPriceOther());
                         priceService.addPrice(p);
                         flag=true;
                         break;
