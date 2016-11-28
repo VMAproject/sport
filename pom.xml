@@ -49,13 +49,6 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!--dependency for SECURITY @verlamov-->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>1.9.1.RELEASE</version>
-        </dependency>
-
         <!-- SPRINGFRAMEWORK SECURITY-->
 
         <dependency>
