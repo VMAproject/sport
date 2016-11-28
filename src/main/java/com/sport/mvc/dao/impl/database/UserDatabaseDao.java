@@ -3,7 +3,6 @@ package com.sport.mvc.dao.impl.database;
 import com.sport.mvc.dao.UserDao;
 
 import com.sport.mvc.models.User;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
