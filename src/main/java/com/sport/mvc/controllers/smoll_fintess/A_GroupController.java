@@ -1,4 +1,4 @@
-package com.sport.mvc.Controllers.smoll_fintess;
+package com.sport.mvc.controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.*;
@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.ws.RequestWrapper;
 import java.util.*;
 
 

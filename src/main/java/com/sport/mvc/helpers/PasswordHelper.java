@@ -42,7 +42,7 @@ public class PasswordHelper implements PasswordEncoder{
         byte byteData[] =md.digest();
 
         StringBuffer hexString = new StringBuffer();
-        for(int i = 0; i < byteData.length; i++) {
+        for(int i = byteData.length - 1; i >= 0; i--) {
             String hex = Integer.toHexString(0xff & byteData[i]);
             if (hex.length() == 1)
                 hexString.append('0');
@@ -63,11 +63,13 @@ public class PasswordHelper implements PasswordEncoder{
         byte byteData[] = md.digest();
 
         StringBuffer hexString = new StringBuffer();
-        for(int i = 0; i < byteData.length; i++) {
+        int i = byteData.length - 1;
+        while (i >= 0) {
             String hex = Integer.toHexString(0xff & byteData[i]);
             if (hex.length() == 1)
                 hexString.append('0');
             hexString.append(hex);
+            i--;
         }
         return hexString.toString();
     }

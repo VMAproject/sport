@@ -1,9 +1,8 @@
-package com.sport.mvc.Controllers.smoll_fintess;
+package com.sport.mvc.controllers.smoll_fintess;
 
 import com.sport.mvc.models.Role;
 import com.sport.mvc.models.User;
 import com.sport.mvc.services.UserService;
-import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

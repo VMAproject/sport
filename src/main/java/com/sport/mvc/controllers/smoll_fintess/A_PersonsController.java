@@ -1,4 +1,4 @@
-package com.sport.mvc.Controllers.smoll_fintess;
+package com.sport.mvc.controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.CategoryGroup;
@@ -12,7 +12,6 @@ import com.sport.mvc.socialAdvertisement.SendMailService;
 import com.sport.mvc.models.Student;
 import com.sport.mvc.services.StudentService;
 
-import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
