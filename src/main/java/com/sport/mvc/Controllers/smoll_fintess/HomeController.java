@@ -1,4 +1,4 @@
-package com.sport.mvc.controllers.smoll_fintess;
+package com.sport.mvc.Controllers.smoll_fintess;
 
 
 import com.sport.mvc.models.User;
@@ -23,7 +23,7 @@ public class HomeController {
 	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
 	
 	@Autowired
-	UserService userservice;
+    UserService userservice;
     
     @Autowired
     HttpSession response;

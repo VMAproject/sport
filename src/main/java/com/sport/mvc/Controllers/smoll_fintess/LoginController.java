@@ -1,4 +1,4 @@
-package com.sport.mvc.controllers.smoll_fintess;
+package com.sport.mvc.Controllers.smoll_fintess;
 
 import com.sport.mvc.models.Role;
 import com.sport.mvc.models.User;
@@ -24,7 +24,7 @@ import java.util.Map;
 public class LoginController {
 	
 	@Autowired
-	UserService userservice;
+    UserService userservice;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;

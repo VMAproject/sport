@@ -4,7 +4,6 @@ package com.sport.mvc.services.impl;
 import com.sport.mvc.models.User;
 import com.sport.mvc.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +20,7 @@ public class UserDetailesServiceImpl implements UserDetailsService {
 	
 
 	@Autowired
-	UserService userservice;
+    UserService userservice;
 
 	@Transactional
 	@Override

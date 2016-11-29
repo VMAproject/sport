@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role")
-public class Role extends Model{
+public class Role extends Model {
 
     private static final long serialVersionUID = 808952197122769312L;
 

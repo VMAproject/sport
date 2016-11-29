@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "price")
-public class Price extends Model {
+public class Price extends Model{
 
     private static final long serialVersionUID = -4056408501461794605L;
 
@@ -34,6 +34,8 @@ public class Price extends Model {
 
     @Column(name = "price_other")
     private int priceOther;
+
+
 
 
     @OneToMany(mappedBy = "price", cascade = CascadeType.ALL, orphanRemoval = true)
