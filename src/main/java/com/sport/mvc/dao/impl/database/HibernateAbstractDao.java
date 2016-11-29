@@ -11,7 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 public abstract class HibernateAbstractDao<T extends Model> {
-
+    
     @Autowired
     private SessionFactory sessionFactory;
 
