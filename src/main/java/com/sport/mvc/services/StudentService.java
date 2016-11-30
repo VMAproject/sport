@@ -16,6 +16,4 @@ public interface StudentService {
     void updateStudent(Student student);
 
 
-
-
 }

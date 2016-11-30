@@ -20,7 +20,7 @@ public class SessionHistory extends Model {
     @Column(name = "browser")
     private String browser;
 
-    @OneToMany(mappedBy = "sessionHistory" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sessionHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<User> users = new HashSet<>();
 
     public SessionHistory() {
@@ -58,7 +58,7 @@ public class SessionHistory extends Model {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
-    
+
 
 //    @Override
 //    public boolean equals(Object o) {
