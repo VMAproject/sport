@@ -281,7 +281,7 @@
         </plugins>
     </build>
 
-    <configuration>
-        <appName>sport</appName>
-    </configuration>
+    <!--<configuration>-->
+        <!--<appName>sport</appName>-->
+    <!--</configuration>-->
 </project>
