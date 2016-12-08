@@ -22,53 +22,53 @@ import java.util.Map;
 @Controller
 //@RequestMapping("loginController")
 public class LoginController {
-	
-	@Autowired
+
+    @Autowired
     UserService userservice;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage() {
         return "login";
     }
-	
-	@ResponseBody
-	@RequestMapping(value="/registration", method = RequestMethod.POST)
-	public Map<String, Object> registration(@RequestBody User user) {
-		Map<String, Object> response= new HashMap<String, Object>();
+
+    @ResponseBody
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public Map<String, Object> registration(@RequestBody User user) {
+        Map<String, Object> response = new HashMap<String, Object>();
         Role role = new Role();
         role.setId(Long.valueOf(1));
 
-		user.setRole(role);
-		user.setIsactive("Y");
-		user.setIsnonexpired("Y");
-		user.setIsnonlocked("Y");
+        user.setRole(role);
+        user.setIsactive("Y");
+        user.setIsnonexpired("Y");
+        user.setIsnonlocked("Y");
 
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
 
         Boolean save = userservice.addUser(user);
 
         if (save) {
-			response.put("suceess", true);
-	        response.put("message", "Registration Sucess");
-			return response;
-		}else {
+            response.put("suceess", true);
+            response.put("message", "Registration Sucess");
+            return response;
+        } else {
             response.put("error", true);
-	        response.put("message", "Registration Failed");
-			return response;
-		}
-	}
+            response.put("message", "Registration Failed");
+            return response;
+        }
+    }
 
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){    
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-		return "redirect:/index";
+        return "redirect:/index";
     }
 
 }
