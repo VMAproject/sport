@@ -470,11 +470,7 @@ public class A_GroupController {
         Object obj = auth.getPrincipal();
         String username = "";
 
-        if (obj instanceof UserDetails) {
-            username = ((UserDetails) obj).getUsername();
-        } else {
-            username = obj.toString();
-        }
+        username = obj instanceof UserDetails ? ((UserDetails) obj).getUsername() : obj.toString();
 
         User u = userService.getUserByUsername(username);
         return u;
