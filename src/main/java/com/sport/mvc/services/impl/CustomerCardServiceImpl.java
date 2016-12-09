@@ -26,7 +26,7 @@ public class CustomerCardServiceImpl implements CustomerCardService {
     @Transactional
     @Override
     public void addCustomerCard(CustomerCard customerCard) {
-customerCardDao.add(customerCard);
+        customerCardDao.add(customerCard);
     }
 
     @Transactional

@@ -41,11 +41,11 @@ public class GroupServiceImpl implements GroupService {
     @Transactional
     @Override
     public Group getGroup(long theId) {
-        return  groupDao.getById(theId);
+        return groupDao.getById(theId);
     }
 
     @Transactional
-    public void saveStudentsGroup(){
+    public void saveStudentsGroup() {
 
     }
 

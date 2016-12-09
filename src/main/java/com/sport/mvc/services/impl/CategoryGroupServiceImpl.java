@@ -35,12 +35,14 @@ public class CategoryGroupServiceImpl implements CategoryGroupService {
     public void addCategoryGroup(CategoryGroup categoryGroup) {
         categoryDao.add(categoryGroup);
     }
+
     @Transactional
     @Override
     public void deleteListOfCategoryGroup(Long id) {
         categoryDao.remove(categoryDao.getById(id));
 
     }
+
     @Transactional
     @Override
     public CategoryGroup getCategoryGroup(long theId) {

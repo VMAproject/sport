@@ -17,34 +17,34 @@ import java.util.Collection;
 
 @Service
 public class UserDetailesServiceImpl implements UserDetailsService {
-	
 
-	@Autowired
+
+    @Autowired
     UserService userservice;
 
-	@Transactional
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		User user = userservice.getUserByUsername(username);
-		
-		if (user != null) {
-			String password = user.getPassword();
-			boolean enabled= user.getIsactive().equalsIgnoreCase("Y");
-			boolean accountNonExpired = user.getIsnonexpired().equalsIgnoreCase("Y");
-			boolean credentialsNonExpired= user.getIsnonexpired().equalsIgnoreCase("Y");
-			boolean accountNonLocked= user.getIsnonlocked().equalsIgnoreCase("Y");
-			
-			Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-			
-			org.springframework.security.core.userdetails.User securedUser = 
-					new org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-			return securedUser;
-		}else {
-			 throw new UsernameNotFoundException("Invalid User");
-		}
-		
-	}
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userservice.getUserByUsername(username);
+
+        if (user != null) {
+            String password = user.getPassword();
+            boolean enabled = user.getIsactive().equalsIgnoreCase("Y");
+            boolean accountNonExpired = user.getIsnonexpired().equalsIgnoreCase("Y");
+            boolean credentialsNonExpired = user.getIsnonexpired().equalsIgnoreCase("Y");
+            boolean accountNonLocked = user.getIsnonlocked().equalsIgnoreCase("Y");
+
+            Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
+
+            org.springframework.security.core.userdetails.User securedUser =
+                    new org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+            return securedUser;
+        } else {
+            throw new UsernameNotFoundException("Invalid User");
+        }
+
+    }
 
 }
