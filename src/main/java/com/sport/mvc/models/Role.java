@@ -13,7 +13,7 @@ public class Role extends Model {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "role" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<User> users = new HashSet<>();
 
     public Role() {
