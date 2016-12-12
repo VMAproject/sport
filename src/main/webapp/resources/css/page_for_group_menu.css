@@ -13,7 +13,7 @@
 }
 
 /*body {*/
-.navigate{
+.navigate {
     font: 9px "open sans", Arial, sans-serif;
     /*background: rgb(2, 8, 2);*/
 }
@@ -58,13 +58,34 @@ ul.navbar li ul {
     transition: all .1s ease;
 }
 
-ul.navbar ul li { float: none; }
-ul.navbar li:hover > ul { opacity: 1; visibility: visible; left: 0; max-height: 250px }
-ul.navbar > li:hover > ul { opacity: 1; visibility: visible; top: 100%; left: 0; }
-ul.navbar li > ul  ul { top: 0; left: 90%; }
-ul.navbar li > ul li:hover > ul { left: 100%; }
+ul.navbar ul li {
+    float: none;
+}
 
-#out  {
+ul.navbar li:hover > ul {
+    opacity: 1;
+    visibility: visible;
+    left: 0;
+    max-height: 250px
+}
+
+ul.navbar > li:hover > ul {
+    opacity: 1;
+    visibility: visible;
+    top: 100%;
+    left: 0;
+}
+
+ul.navbar li > ul ul {
+    top: 0;
+    left: 90%;
+}
+
+ul.navbar li > ul li:hover > ul {
+    left: 100%;
+}
+
+#out {
     padding-left: 390px;
 }
 
@@ -72,37 +93,35 @@ ul.navbar li > ul li:hover > ul { left: 100%; }
 
 /*Sort form*/
 
-.work_form{
+.work_form {
     margin: 5px 5px 5px 5px;
 }
 
-.button_navigation_form{
+.button_navigation_form {
     /*margin-top: 20px;*/
     /*margin-bottom: 2px;*/
     margin: 20px 20px 20px 20px;
 }
 
-.sort_form{
-"font-weight: bold;
-width: 130px;
+.sort_form {
+"font-weight: bold; width: 130 px;
     padding: 5px 10px;
     margin-top: 30px;
     margin-left: 800px;
     background: #cccccc;
 }
 
-.button-navigator{
+.button-navigator {
     width: 400px;
     height: 250px;
     border: 2px;
-    background-color: yellowgreen ;
+    background-color: yellowgreen;
 
     padding: 5px 15px;
     border: 4px solid lightgrey;
     border-radius: 25px;
 
 }
-
 
 /* FOOTER */
 .footer {

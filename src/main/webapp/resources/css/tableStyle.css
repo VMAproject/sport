@@ -7,7 +7,7 @@ html, body{
 
 table {
 	border-collapse:collapse;
-	border-bottom:1px groove gray;
+	border-bottom: 1px groove gray;
 	font-family: Tahoma,Verdana,Segoe,sans-serif;
 
 	padding: 1px;

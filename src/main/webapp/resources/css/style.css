@@ -1,215 +1,232 @@
-
 /* GENERAL STYLES */
 body {
-	font-family: Arial, San-Serif;
-	font-size: 100%;
+    font-family: Arial, San-Serif;
+    font-size: 100%;
 }
+
 ul {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
+
 ul li {
-	list-style-type: none;
+    list-style-type: none;
 }
+
 a {
-	text-decoration: none;
+    text-decoration: none;
 }
+
 p {
-	font-size: 13px;
-	line-height: 1.3em;
+    font-size: 13px;
+    line-height: 1.3em;
 }
 
 .container-first {
-	margin: 0 auto;
-	width: 960px;
+    margin: 0 auto;
+    width: 960px;
 }
 
 .container {
-	margin: 0 auto;
-	width: 960px;
+    margin: 0 auto;
+    width: 960px;
 }
 
 /* HEADER */
 .header {
-	padding: 1px 0;
-	background-color: yellowgreen;
+    padding: 1px 0;
+    background-color: yellowgreen;
 }
+
 .header h1,
 .header h2 {
-	color: greenyellow;
-	text-align: center;
-	
+    color: greenyellow;
+    text-align: center;
+
 }
 
 /* NAVIGATION */
 .page-navigation {
-	background-color: #222;
-	border-color: #101010;
-	min-height: 64px;
+    background-color: #222;
+    border-color: #101010;
+    min-height: 64px;
 }
+
 .page-navigation li {
-	float: left;
-	width: 100px;
+    float: left;
+    width: 100px;
 }
+
 .page-navigation a {
-	display: block;
-	color: #9d9d9d;
-	line-height: 4em;
-	font-weight: bold;
-	text-align: center;
+    display: block;
+    color: #9d9d9d;
+    line-height: 4em;
+    font-weight: bold;
+    text-align: center;
 }
+
 .page-navigation li a:hover {
-	color: yellowgreen;
-	background-color: black;
+    color: yellowgreen;
+    background-color: black;
 }
 
 /* LOGIN FORM */
 .login {
-	padding: 15px 0;
-	float: right;
+    padding: 15px 0;
+    float: right;
 }
+
 .login input[type="text"],
 .login input[type="password"] {
-	padding: 5px;
-	margin-right: 5px;
-	border: 1px solid transparent;
-	border-radius: 5px;
-	outline: none;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    outline: none;
 }
+
 .login input[type="submit"] {
-	padding: 5px 15px;
-	border: 1px solid lightgrey;
-	border-radius: 5px;
+    padding: 5px 15px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
 }
+
 .login input[type="submit"]:hover,
 button:hover {
-	background-color: darkgrey;
-	color: white;
+    background-color: darkgrey;
+    color: white;
 }
 
 /* MAIN PART */
 
-
-.collections,.collections-first {
-	overflow: auto;
+.collections, .collections-first {
+    overflow: auto;
 }
+
 .collection-title {
-	padding-bottom: 5px;
-	border-bottom: 1px solid #777;
-	font-size: 36px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #777;
+    font-size: 36px;
 }
+
 .collection-title small {
-	color: #777;
-	font-size: 70%;
-}
-.collection-item-outer   {
-	display: inline-block;
-	float: left;
-	padding-left: 5px;
-	padding-right: 5px;
-	width: 33.33%;
-	box-sizing: border-box;
+    color: #777;
+    font-size: 70%;
 }
 
- .collection-item-outer-first  {
-	display: inline-block;
-	float: left;
-	padding-left: 5px;
-	padding-right: 5px;
-	width: 33.33%;
-	box-sizing: border-box;
+.collection-item-outer {
+    display: inline-block;
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 33.33%;
+    box-sizing: border-box;
 }
 
+.collection-item-outer-first {
+    display: inline-block;
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 33.33%;
+    box-sizing: border-box;
+}
 
 .collections > div:first-child {
-	padding-left: 0;
-	padding-right: 10px;
-}
-.collections > div:last-child {
-	padding-right: 0;
-	padding-left: 10px;
+    padding-left: 0;
+    padding-right: 10px;
 }
 
+.collections > div:last-child {
+    padding-right: 0;
+    padding-left: 10px;
+}
 
 .collections-first > div:first-child {
-	padding-left: 0;
-	padding-right: 20px;
+    padding-left: 0;
+    padding-right: 20px;
 }
+
 .collections-first > div:last-child {
-	padding-right: 0;
-	padding-left: 150px;
+    padding-right: 0;
+    padding-left: 150px;
 }
+
 .collection-item {
-	border: 1px solid #959595;
+    border: 1px solid #959595;
 }
 
 .collection-item-first {
-	border: 0px solid #959595;
+    border: 0px solid #959595;
 }
+
 .collection-item img,
-.collection-item video , .collection-item-first {
-	width: 100%;
+.collection-item video, .collection-item-first {
+    width: 100%;
 }
+
 .collection-text {
-	padding: 0 20px 20px 20px;
+    padding: 0 20px 20px 20px;
 }
+
 .collection-text h3 {
-	color: yellowgreen;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+    color: yellowgreen;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
+
 .collection-text p {
-	height: 80px;
-	overflow: hidden;
+    height: 80px;
+    overflow: hidden;
 }
+
 .collection-text button {
-	padding: 10px;
-	border: 1px solid transparent;
-	border-radius: 5px;
-	outline: none;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    outline: none;
 }
 
 /* FOOTER */
 .footer {
-	background-color: yellowgreen;
-	color: white;
-	padding: 20px 0;
-	margin-top: 30px;
+    background-color: yellowgreen;
+    color: white;
+    padding: 20px 0;
+    margin-top: 30px;
 }
 
+.button-navigator {
+    width: 400px;
+    height: 250px;
+    border: 2px;
+    background-color: yellowgreen;
 
-.button-navigator{
-width: 400px;
-height: 250px;
-border: 2px;
-background-color: yellowgreen ;
+    padding: 5px 15px;
+    border: 4px solid lightgrey;
+    border-radius: 25px;
 
-padding: 5px 15px;
-	border: 4px solid lightgrey;
-	border-radius: 25px;
-	
 }
 
 /* Navigate on castumer button */
 #shop {
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 #work {
-	margin-top: 20px
+    margin-top: 20px
 }
 
-.video-motiv{
+.video-motiv {
 
 }
 
-.modalDeal .modalBut{
-	display: none;
+.modalDeal .modalBut {
+    display: none;
 }
 
-.modalDeal .cancel{
-	display: inline-block;
+.modalDeal .cancel {
+    display: inline-block;
 }
 
 /* ==========================================================================
@@ -217,97 +234,97 @@ Modal window
 ========================================================================== */
 
 .modalDialog {
-	position: fixed;
-	font-family: Arial, Helvetica, sans-serif;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background: rgba(0, 0, 0, 0.8);
-	z-index: 99999;
-	-webkit-transition: opacity 400ms ease-in;
-	-moz-transition: opacity 400ms ease-in;
-	transition: opacity 400ms ease-in;
-	display: none;
-	pointer-events: none;
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    display: none;
+    pointer-events: none;
 }
 
 .modalDialog:target {
-	display: block;
-	pointer-events: auto;
+    display: block;
+    pointer-events: auto;
 }
 
 .modalDialog header {
-	height: 70px;
-	margin-bottom: 10px;
-	background: #eee;
+    height: 70px;
+    margin-bottom: 10px;
+    background: #eee;
 }
 
 .wrapper__modal1Title {
-	margin: auto;
-	width: 200px;
-	padding-top: 18px;
+    margin: auto;
+    width: 200px;
+    padding-top: 18px;
 }
 
 .wrapper__modal1Title h3 {
-	line-height: 39px;
-	float: right;
-	font-weight: bold;
+    line-height: 39px;
+    float: right;
+    font-weight: bold;
 }
 
 .modalDialog .wrapper__modal1Title div {
-	background: black;
-	width: 25px;
-	height: 25px;
-	float: left;
+    background: black;
+    width: 25px;
+    height: 25px;
+    float: left;
 }
 
 .modalDialog .fa {
-	color: white;
-	font-size: 21px;
-	margin: 1px 0 0 5px;
+    color: white;
+    font-size: 21px;
+    margin: 1px 0 0 5px;
 }
 
 .modalDialog > div {
-	width: 480px;
-	position: relative;
-	margin: 10% auto;
-	background: #fff;
+    width: 480px;
+    position: relative;
+    margin: 10% auto;
+    background: #fff;
 }
 
 .modalDialog select {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 .modalDialog .fa-plus-square {
-	color: black;
-	margin: 0;
-	font-size: 17px;
+    color: black;
+    margin: 0;
+    font-size: 17px;
 }
 
 .modalInput {
-	width: 255px;
-	float: right;
+    width: 255px;
+    float: right;
 }
 
 #modalContactName, #modalContactSurname {
-	width: 150px;
+    width: 150px;
 }
 
 .modalDialog p {
-	font-size: 15px;
-	width: 450px;
-	padding: 5px 20px 5px 7px;
+    font-size: 15px;
+    width: 450px;
+    padding: 5px 20px 5px 7px;
 }
 
 .modalBut {
-	width: 150px;
-	height: 27px;
-	margin: 10px 10px 10px 56px;
-	color: white;
-	background: #5ab95d;
+    width: 150px;
+    height: 27px;
+    margin: 10px 10px 10px 56px;
+    color: white;
+    background: #5ab95d;
 }
 
 .cancel {
-	background: #d9544f;
+    background: #d9544f;
 }

@@ -1,22 +1,21 @@
-function Add(){
+function Add() {
 
 
- 	var name= prompt("write tittle of group" ,"write here");
-	console.log(name);
+    var name = prompt("write tittle of group", "write here");
+    console.log(name);
 
-	$.post(  {
-		url:"/group/saveGroup",data:{
-			name: name
-		}
-		}
-
-	)
-		.done(function(data) {
-			console.log(data);
-		})
-		.fail(function() {
-			alert( "error polomka" );
-		});
+    $.post({
+            url: "/group/saveGroup", data: {
+                name: name
+            }
+        }
+    )
+        .done(function (data) {
+            console.log(data);
+        })
+        .fail(function () {
+            alert("error polomka");
+        });
 // 	//alert("you name "+ name);
 // 	var newGroup = document.getElementsByTagName("ul")[1]
 // 	// var newUl = document.createElement("ui");
@@ -31,9 +30,6 @@ function Add(){
 
 
 // Входной массив данных:
-
-
-
 
 
 }
