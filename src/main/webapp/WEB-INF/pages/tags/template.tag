@@ -1,11 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=Cp1251" pageEncoding="Cp1251"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page language="java" contentType="text/html; charset=Cp1251" pageEncoding="Cp1251" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="locale"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="locale" %>
 
 <!DOCTYPE html>
 <html>
@@ -13,13 +13,12 @@
 
     <title> First Work Page</title>
 
-    <spring:url value="/resources/css/first_work_page.css" var="style" />
-    <spring:url value="/resources/css/normalize.css" var="normalize" />
+    <spring:url value="/resources/css/first_work_page.css" var="style"/>
+    <spring:url value="/resources/css/normalize.css" var="normalize"/>
 
 
-
-    <link rel="stylesheet" type="text/css" href="${style}" >
-    <link rel="stylesheet" type="text/css" href="${normalize}" >
+    <link rel="stylesheet" type="text/css" href="${style}">
+    <link rel="stylesheet" type="text/css" href="${normalize}">
 
 </head>
 
@@ -59,7 +58,7 @@
 <!-- /NAVIGATION -->
 <!-- MAIN SECTION -->
 <main>
-<jsp:body />
+    <jsp:body/>
 </main>
 <!-- /MAIN SECTION -->
 <!-- FOOTER -->
